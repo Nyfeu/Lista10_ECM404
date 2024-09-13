@@ -51,7 +51,7 @@ void Warshall (Grafo g, int w[MAX_VERT][MAX_VERT]);
 // Retorna 1 se o vértice 'para' for alcançável pelo vértice 'de' 
 int Alcanca (Grafo g, int de, int para);
 
-// Retorna o peso total de um passeio definido pela lista de vérticse 'p'
+// Retorna o peso total de um passeio definido pela lista de vértices 'p'
 float PesoDoPasseio (Grafo g, ListaDeVertices p);
 
 #endif // GRAFO_H_INCLUDED

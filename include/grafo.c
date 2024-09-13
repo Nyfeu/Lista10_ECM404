@@ -66,3 +66,92 @@ float PesoDaAresta (Grafo g, int de, int para)
 {
     return g.Pesos[de][para];
 }
+
+int GrauDeEntrada (Grafo g, int v)
+{
+
+    if (v < 0 || v > g.nVertices) {
+        printf("O vértice não pôde ser encontrado!\n");
+        exit(1);
+    }
+
+    int grau = 0;
+    for (int i = 0; i < g.nVertices; i++) {
+        if (g.Pesos[i][v]) grau++;
+    }
+
+    return grau;
+
+}
+
+int GrauDeSaida (Grafo g, int v)
+{
+
+    if (v < 0 || v > g.nVertices) {
+        printf("O vértice não pôde ser encontrado!\n");
+        exit(1);
+    }
+
+    int grau = 0;
+    for (int i = 0; i < g.nVertices; i++) {
+        if (g.Pesos[v][i]) grau++;
+    }
+
+    return grau;
+
+}
+
+int Vertedouro (Grafo g, int v) {
+
+    return GrauDeEntrada(g, v) == 0;
+
+}
+
+int Sorvedouro (Grafo g, int v) {
+
+    return GrauDeSaida(g, v) == 0;
+
+}
+
+int Adjacente (Grafo g, int de, int para) {
+
+    return (g.Pesos[para][de] != 0);
+
+}
+
+void Warshall (Grafo g, int w[MAX_VERT][MAX_VERT]) {
+
+    for (int i = 0; i < g.nVertices; i++) {
+        for (int j = 0; j < g.nVertices; j++) {
+            w[i][j] = PesoDaAresta(g, i, j) != 0;
+        }
+    }
+
+    for (int i = 0; i < g.nVertices; i++) {
+        for (int j = 0; j < g.nVertices; j++) {
+            for (int k = 0; k < g.nVertices; k++) {
+                w[i][j] = w[i][j] || (w[i][k] && w[k][j]);
+            }
+        }
+    }
+
+}
+
+int Alcanca (Grafo g, int de, int para) {
+
+    int w[MAX_VERT][MAX_VERT];
+    Warshall(g, w);
+
+    return w[de][para] != 0;
+
+}
+
+float PesoDoPasseio (Grafo g, ListaDeVertices p) {
+
+    float peso = 0;
+
+    for (int i = 0; i < p.nVertices - 1; i++) {
+        peso += g.Pesos[p.vertices[i]][p.vertices[i+1]];
+    }
+
+}
